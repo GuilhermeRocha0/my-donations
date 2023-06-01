@@ -6,15 +6,33 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { LinearGradient } from 'expo-linear-gradient'
 import { FontAwesome5 } from '@expo/vector-icons'
-
 import { Logo } from '../../components/Logo'
 
-export function Login() {
+export function Login({ onLogin }) {
+  const navigation = useNavigation()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  function handleLogin() {
+    console.log('Clicou em conectar')
+  }
+
+  function handleFacebookLogin() {
+    console.log('Clicou em conectar pelo Facebook')
+  }
+
+  function handleGoogleLogin() {
+    console.log('Clicou em conectar pelo Google')
+  }
+
+  function handleNavigateToSignUp() {
+    navigation.navigate('SignUp')
+  }
 
   return (
     <View style={styles.container}>
@@ -43,7 +61,7 @@ export function Login() {
           onChangeText={txt => setPassword(txt)}
         />
 
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonTitle}>Conectar</Text>
         </TouchableOpacity>
       </View>
@@ -52,16 +70,16 @@ export function Login() {
         <Text style={styles.loginIconsTitle}>Conecte-se com:</Text>
 
         <View style={styles.icons}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handleFacebookLogin}>
             <FontAwesome5 name="facebook-f" size={24} color="#FFF" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handleGoogleLogin}>
             <FontAwesome5 name="google" size={24} color="#FFF" />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handleNavigateToSignUp}>
           <Text style={styles.signUpButton}>Criar Conta</Text>
         </TouchableOpacity>
       </View>
