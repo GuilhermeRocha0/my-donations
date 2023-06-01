@@ -47,6 +47,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
+              key={route.name}
               style={[
                 styles.buttonTab,
                 {
