@@ -2,8 +2,10 @@ import React from 'react'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { Home } from '../pages/Home'
+import { LoggedStackRoutes } from './LoggedStackRoutes'
 import { Profile } from '../pages/Profile'
+
+import { Ionicons } from '@expo/vector-icons'
 
 import CustomTabBar from '../components/CustomTabBar'
 
@@ -16,26 +18,42 @@ export function Routes() {
         headerShown: false,
         tabBarHideOnKeyboard: true,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#FFF',
+        tabBarActiveTintColor: '#F3F9FF',
         tabBarStyle: {
           backgroundColor: '#2BD410',
           borderTopWidth: 0
         }
       }}
-      tabBar={props => <CustomTabBar {...props} />}
+      // tabBar={props => <CustomTabBar {...props} />}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeTab"
+        component={LoggedStackRoutes}
         options={{
-          tabBarIcon: 'home-outline'
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) {
+              return <Ionicons name="home" color={color} size={size} />
+            }
+            return <Ionicons name="home-outline" color="#CCCCCC" size={size} />
+          }
         }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: 'person-circle-outline'
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) {
+              return <Ionicons name="person-circle" color={color} size={size} />
+            }
+            return (
+              <Ionicons
+                name="person-circle-outline"
+                color="#CCCCCC"
+                size={size}
+              />
+            )
+          }
         }}
       />
     </Tab.Navigator>
