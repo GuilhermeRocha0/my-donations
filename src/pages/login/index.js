@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-import { Logo } from '../../components/logo'
+import { Logo } from '../../components/Logo'
 
 export function Login() {
   const [email, setEmail] = useState('')
