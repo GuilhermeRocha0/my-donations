@@ -13,11 +13,13 @@ import {
 
 import { Ionicons } from '@expo/vector-icons'
 
+import api from '../../services/api'
+
 export function SignUp({ navigation }) {
   const [nome, setNome] = useState('')
   const [cpf, setCPF] = useState('')
   const [email, setEmail] = useState('')
-  const [telfone, setTelefone] = useState('')
+  const [telefone, setTelefone] = useState('')
   const [nascimento, setNascimento] = useState('')
   const [senha, setSenha] = useState('')
   const [endereco, setEndereco] = useState('')
@@ -26,8 +28,21 @@ export function SignUp({ navigation }) {
     navigation.goBack()
   }
 
-  function handleSignUp() {
-    console.log('Clicou em registrar usuário')
+  async function handleSignUp() {
+    try {
+      await api.post('/usuario/registrar', {
+        nome,
+        cpf,
+        email,
+        telefone,
+        nascimento,
+        senha,
+        endereco
+      })
+      navigation.goBack()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -53,6 +68,7 @@ export function SignUp({ navigation }) {
         <Text style={styles.label}>E-mail:</Text>
         <TextInput
           style={styles.input}
+          keyboardType={'email-address'}
           value={email}
           onChangeText={txt => setEmail(txt)}
         />
@@ -60,6 +76,7 @@ export function SignUp({ navigation }) {
         <Text style={styles.label}>Senha:</Text>
         <TextInput
           style={styles.input}
+          keyboardType={'password'}
           value={senha}
           onChangeText={txt => setSenha(txt)}
         />
@@ -67,6 +84,7 @@ export function SignUp({ navigation }) {
         <Text style={styles.label}>CPF:</Text>
         <TextInput
           style={styles.input}
+          keyboardType={'numeric'}
           value={cpf}
           onChangeText={txt => setCPF(txt)}
         />
@@ -74,7 +92,7 @@ export function SignUp({ navigation }) {
         <Text style={styles.label}>Telefone:</Text>
         <TextInput
           style={styles.input}
-          value={telfone}
+          value={telefone}
           onChangeText={txt => setTelefone(txt)}
         />
 
@@ -85,7 +103,7 @@ export function SignUp({ navigation }) {
           onChangeText={txt => setNascimento(txt)}
         />
 
-        <Text style={styles.label}>Cidade:</Text>
+        <Text style={styles.label}>Endereço:</Text>
         <TextInput
           style={styles.input}
           value={endereco}

@@ -61,6 +61,7 @@ export function Login({ onLogin }) {
         <Text style={styles.label}>E-mail:</Text>
         <TextInput
           style={styles.input}
+          keyboardType={'email-address'}
           value={email}
           onChangeText={txt => setEmail(txt)}
         />
@@ -68,6 +69,7 @@ export function Login({ onLogin }) {
         <Text style={styles.label}>Senha:</Text>
         <TextInput
           style={styles.input}
+          keyboardType={'password'}
           value={password}
           onChangeText={txt => setPassword(txt)}
         />
