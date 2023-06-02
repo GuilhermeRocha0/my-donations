@@ -11,9 +11,11 @@ export default function Products({ data }) {
     navigation.navigate('Details', { data: data })
   }
 
+  console.log(data)
+
   return (
     <Pressable onPress={handleNavigate} style={styles.container} key={data.id}>
-      <Text style={styles.title}>{data.name}</Text>
+      <Text style={styles.title}>{data.nome}</Text>
       <Ionicons name="chevron-forward" size={34} color="#000" />
     </Pressable>
   )

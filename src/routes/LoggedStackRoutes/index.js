@@ -6,31 +6,34 @@ import { AddProduct } from '../../pages/AddProduct'
 
 const Stack = createNativeStackNavigator()
 
-export function LoggedStackRoutes() {
+export function LoggedStackRoutes({ token }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={Home}
         options={{
           headerShown: false
         }}
-      />
+      >
+        {props => <Home {...props} token={token} />}
+      </Stack.Screen>
       <Stack.Screen
         name="Details"
-        component={Details}
         options={{
           title: 'Detalhes',
           headerShadowVisible: false
         }}
-      />
+      >
+        {props => <Details {...props} token={token} />}
+      </Stack.Screen>
       <Stack.Screen
         name="AddProduct"
-        component={AddProduct}
         options={{
           headerShown: false
         }}
-      />
+      >
+        {props => <AddProduct {...props} token={token} />}
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
