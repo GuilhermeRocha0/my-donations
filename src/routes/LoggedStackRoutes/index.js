@@ -20,8 +20,7 @@ export function LoggedStackRoutes({ token }) {
       <Stack.Screen
         name="Details"
         options={{
-          title: 'Detalhes',
-          headerShadowVisible: false
+          headerShown: false
         }}
       >
         {props => <Details {...props} token={token} />}
