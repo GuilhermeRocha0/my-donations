@@ -11,11 +11,12 @@ import {
   TextInput
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { useRoute, useNavigation } from '@react-navigation/native'
+import { useRoute, useNavigation, useIsFocused } from '@react-navigation/native'
 
 export function Details() {
   const route = useRoute()
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
 
   const options = ['Não Definido', 'Péssimo', 'Ruim', 'Ok', 'Bom', 'Perfeito']
 
@@ -23,7 +24,7 @@ export function Details() {
     navigation.getParent().setOptions({
       tabBarStyle: { display: 'none', backgroundColor: 'transparent' }
     })
-  }, [])
+  }, [isFocused])
 
   function handleGoBack() {
     navigation.getParent().setOptions({
