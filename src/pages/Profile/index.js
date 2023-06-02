@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -10,12 +10,13 @@ import {
   TouchableOpacity,
   TextInput
 } from 'react-native'
+import api from '../../services/api'
 
-export function Profile() {
+export function Profile({ token }) {
   const [nome, setNome] = useState('')
   const [cpf, setCPF] = useState('')
   const [email, setEmail] = useState('')
-  const [telfone, setTelefone] = useState('')
+  const [telefone, setTelefone] = useState('')
   const [nascimento, setNascimento] = useState('')
   const [senha, setSenha] = useState('')
   const [endereco, setEndereco] = useState('')
@@ -28,6 +29,28 @@ export function Profile() {
     console.log('Clicou em editar visibilidade')
   }
 
+  useEffect(() => {
+    async function fetchApi() {
+      try {
+        const response = await api.get('/usuario', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        setNome(response.data.nome)
+        setCPF(response.data.cpf)
+        setEmail(response.data.email)
+        setTelefone(response.data.telefone)
+        setNascimento(response.data.nascimento)
+        setSenha(response.data.senha)
+        setEndereco(response.data.endereco)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchApi()
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Perfil</Text>
@@ -37,19 +60,13 @@ export function Profile() {
         contentContainerStyle={{ paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.label}>Nome:</Text>
-        <TextInput
-          style={styles.input}
-          value={nome}
-          onChangeText={txt => setNome(txt)}
-        />
+        <Text style={styles.label}>Nome: {nome}</Text>
 
-        <Text style={styles.label}>E-mail:</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={txt => setEmail(txt)}
-        />
+        <Text style={styles.label}>E-mail: {email}</Text>
+
+        <Text style={styles.label}>CPF: {cpf}</Text>
+
+        <Text style={styles.label}>Data de Nascimento: {nascimento}</Text>
 
         <Text style={styles.label}>Senha:</Text>
         <TextInput
@@ -58,49 +75,26 @@ export function Profile() {
           onChangeText={txt => setSenha(txt)}
         />
 
-        <Text style={styles.label}>CPF:</Text>
-        <TextInput
-          style={styles.input}
-          value={cpf}
-          onChangeText={txt => setCPF(txt)}
-        />
-
         <Text style={styles.label}>Telefone:</Text>
         <TextInput
           style={styles.input}
-          value={telfone}
+          value={telefone}
           onChangeText={txt => setTelefone(txt)}
         />
 
-        <Text style={styles.label}>Data de Nascimento:</Text>
-        <TextInput
-          style={styles.input}
-          value={nascimento}
-          onChangeText={txt => setNascimento(txt)}
-        />
-
-        <Text style={styles.label}>Cidade:</Text>
+        <Text style={styles.label}>Endereço:</Text>
         <TextInput
           style={styles.input}
           value={endereco}
           onChangeText={txt => setEndereco(txt)}
         />
 
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={[styles.button, styles.updateButton]}
-            onPress={handleUpdateData}
-          >
-            <Text style={styles.buttonTitle}>Atualizar Dados</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.editButton]}
-            onPress={handleEditVisibility}
-          >
-            <Text style={styles.buttonTitle}>Editar Visibilidade</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[styles.button, styles.updateButton]}
+          onPress={handleUpdateData}
+        >
+          <Text style={styles.buttonTitle}>Atualizar Dados</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   )
@@ -144,6 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   button: {
+    backgroundColor: '#177D06',
     elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -152,13 +147,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 20,
     marginTop: 16,
-    width: '48%'
-  },
-  updateButton: {
-    backgroundColor: '#177D06'
-  },
-  editButton: {
-    backgroundColor: '#5DC24D'
+    width: '50%',
+    alignSelf: 'center'
   },
   buttonTitle: {
     fontFamily: 'Inter_400Regular',
