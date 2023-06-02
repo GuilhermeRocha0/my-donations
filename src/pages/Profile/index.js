@@ -10,9 +10,13 @@ import {
   TouchableOpacity,
   TextInput
 } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
+
 import api from '../../services/api'
 
 export function Profile({ token }) {
+  const isFocused = useIsFocused()
+
   const [nome, setNome] = useState('')
   const [cpf, setCPF] = useState('')
   const [email, setEmail] = useState('')
@@ -20,14 +24,6 @@ export function Profile({ token }) {
   const [nascimento, setNascimento] = useState('')
   const [senha, setSenha] = useState('')
   const [endereco, setEndereco] = useState('')
-
-  function handleUpdateData() {
-    console.log('Clicou em atualizar dados')
-  }
-
-  function handleEditVisibility() {
-    console.log('Clicou em editar visibilidade')
-  }
 
   useEffect(() => {
     async function fetchApi() {
@@ -49,7 +45,31 @@ export function Profile({ token }) {
       }
     }
     fetchApi()
-  }, [])
+  }, [isFocused])
+
+  async function handleUpdateData() {
+    try {
+      await api.put(
+        '/usuario',
+        {
+          nome,
+          cpf,
+          email,
+          telefone,
+          nascimento,
+          senha,
+          endereco
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,13 +87,6 @@ export function Profile({ token }) {
         <Text style={styles.label}>CPF: {cpf}</Text>
 
         <Text style={styles.label}>Data de Nascimento: {nascimento}</Text>
-
-        <Text style={styles.label}>Senha:</Text>
-        <TextInput
-          style={styles.input}
-          value={senha}
-          onChangeText={txt => setSenha(txt)}
-        />
 
         <Text style={styles.label}>Telefone:</Text>
         <TextInput
