@@ -5,18 +5,18 @@ import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 
 import { NavigationContainer } from '@react-navigation/native'
-import { Login } from './src/pages/Login'
+import { NotLoggedStackRoutes } from './src/routes/NotLoggedStackRoutes'
 import { Routes } from './src/routes'
 
 export default function App() {
-  const [loggedIn, setLogggedIn] = useState(false)
+  const [token, setToken] = useState('')
   const [fontsLoaded] = useFonts({
     Inter_400Regular: require('./assets/fonts/Inter-Regular.ttf'),
     Inter_600SemiBold: require('./assets/fonts/Inter-SemiBold.ttf')
   })
 
-  function onLogIn(logged) {
-    setLogggedIn(logged)
+  function onLogIn(token) {
+    setToken(token)
   }
 
   useEffect(() => {
@@ -36,7 +36,11 @@ export default function App() {
 
   return (
     <NavigationContainer onLayout={onLayout}>
-      {loggedIn ? <Routes /> : <Login onLogIn={onLogIn} />}
+      {token.length > 0 ? (
+        <Routes token={token} />
+      ) : (
+        <NotLoggedStackRoutes onLogIn={onLogIn} />
+      )}
     </NavigationContainer>
   )
 }

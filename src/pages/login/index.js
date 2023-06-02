@@ -12,14 +12,25 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Logo } from '../../components/Logo'
 
+import api from '../../services/api'
+
 export function Login({ onLogin }) {
   const navigation = useNavigation()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  function handleLogin() {
-    console.log('Clicou em conectar')
+  async function handleLogin() {
+    try {
+      const response = await api.post('/usuario/login', {
+        email,
+        senha: password
+      })
+      const token = response.data.token
+      onLogin(token)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function handleFacebookLogin() {

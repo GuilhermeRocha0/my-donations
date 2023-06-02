@@ -11,7 +11,7 @@ import CustomTabBar from '../components/CustomTabBar'
 
 const Tab = createBottomTabNavigator()
 
-export function Routes() {
+export function Routes({ token }) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -28,7 +28,6 @@ export function Routes() {
     >
       <Tab.Screen
         name="HomeTab"
-        component={LoggedStackRoutes}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -37,10 +36,11 @@ export function Routes() {
             return <Ionicons name="home-outline" color="#CCCCCC" size={size} />
           }
         }}
-      />
+      >
+        {props => <LoggedStackRoutes {...props} token={token} />}
+      </Tab.Screen>
       <Tab.Screen
         name="Profile"
-        component={Profile}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
@@ -55,7 +55,9 @@ export function Routes() {
             )
           }
         }}
-      />
+      >
+        {props => <Profile {...props} token={token} />}
+      </Tab.Screen>
     </Tab.Navigator>
   )
 }

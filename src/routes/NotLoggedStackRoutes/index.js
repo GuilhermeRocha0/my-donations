@@ -10,11 +10,12 @@ export function NotLoggedStackRoutes({ onLogIn }) {
     <Stack.Navigator>
       <Stack.Screen
         name="Login"
-        component={Login}
         options={{
           headerShown: false
         }}
-      />
+      >
+        {props => <Login {...props} onLogin={onLogIn} />}
+      </Stack.Screen>
       <Stack.Screen
         name="SignUp"
         component={SignUp}
