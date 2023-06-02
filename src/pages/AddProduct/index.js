@@ -56,15 +56,6 @@ export function AddProduct({ navigation, token }) {
           }
         })
         setUserId(response.data.id)
-        setNome('')
-        setCategoria('')
-        setValidade('')
-        setCheiro(0)
-        setAparencia(0)
-        setConsistencia(0)
-        setEmbalagem(0)
-        setQualidade(0)
-        setDescricao('')
       } catch (error) {
         console.log(error)
       }
@@ -96,6 +87,15 @@ export function AddProduct({ navigation, token }) {
           }
         }
       )
+      setNome('')
+      setCategoria('')
+      setValidade('')
+      setCheiro(0)
+      setAparencia(0)
+      setConsistencia(0)
+      setEmbalagem(0)
+      setQualidade(0)
+      setDescricao('')
     } catch (error) {
       console.log(error)
     }
