@@ -13,7 +13,9 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import SelectDropdown from 'react-native-select-dropdown'
 
-export function AddProduct({ navigation }) {
+import api from '../../services/api'
+
+export function AddProduct({ navigation, token }) {
   const [nome, setNome] = useState('')
   const [categoria, setCategoria] = useState('')
   const [validade, setValidade] = useState('')
@@ -23,6 +25,7 @@ export function AddProduct({ navigation }) {
   const [embalagem, setEmbalagem] = useState(0)
   const [qualidade, setQualidade] = useState(0)
   const [descricao, setDescricao] = useState('')
+  const [userId, setUserId] = useState('')
 
   const options = ['Não Definido', 'Péssimo', 'Ruim', 'Ok', 'Bom', 'Perfeito']
 
@@ -43,8 +46,51 @@ export function AddProduct({ navigation }) {
     navigation.goBack()
   }
 
-  function handleRegisterProduct() {
-    console.log('Clicou em registrar produto')
+  useEffect(() => {
+    console.log(token)
+    async function getUser() {
+      try {
+        const response = await api.get('/usuario', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        setUserId(response.data.id)
+        console.log(response.data.id)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUser()
+  }, [])
+
+  async function handleRegisterProduct() {
+    try {
+      await api.post(
+        '/produto',
+        {
+          usuario: {
+            id: userId
+          },
+          nome,
+          categoria,
+          validade,
+          cheiro,
+          aparencia,
+          consistencia,
+          embalagem,
+          qualidade,
+          descricao
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
