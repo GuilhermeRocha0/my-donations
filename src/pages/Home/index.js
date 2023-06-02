@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import { useNavigation, useIsFocused } from '@react-navigation/native'
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 import Products from '../../components/Products'
 
 import api from '../../services/api'
@@ -21,11 +21,12 @@ export function Home({ token }) {
   const isFocused = useIsFocused()
 
   const [products, setProducts] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
 
   useEffect(() => {
     async function fetchApi() {
       try {
-        const response = await api.get('/produto', {
+        const response = await api.get(`/produto?page=${currentPage}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -36,10 +37,22 @@ export function Home({ token }) {
       }
     }
     fetchApi()
-  }, [isFocused])
+  }, [isFocused, currentPage])
 
   function handleAddProduct() {
     navigation.navigate('AddProduct')
+  }
+
+  function handlePreviousPage() {
+    console.log('Voltar Página')
+    if (currentPage === 0) {
+      return
+    }
+    setCurrentPage(currentPage - 1)
+  }
+
+  function handleNextPage() {
+    setCurrentPage(currentPage + 1)
   }
 
   return (
@@ -62,6 +75,17 @@ export function Home({ token }) {
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
       />
+
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button} onPress={handlePreviousPage}>
+          <Ionicons name="chevron-back" size={24} color="#F3F9FF" />
+          <Text style={styles.buttonTitle}>Anterior</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleNextPage}>
+          <Text style={styles.buttonTitle}>Próximo</Text>
+          <Ionicons name="chevron-forward" size={24} color="#F3F9FF" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -97,5 +121,32 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: 24
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 24
+  },
+  button: {
+    backgroundColor: '#177D06',
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3.8,
+    paddingVertical: 8,
+    borderRadius: 12,
+    marginTop: 16,
+    width: '45%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonTitle: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 16,
+    color: '#F3F9FF',
+    textAlign: 'center'
   }
 })
