@@ -76,7 +76,7 @@ export function SignUp({ navigation }) {
         <Text style={styles.label}>Senha:</Text>
         <TextInput
           style={styles.input}
-          keyboardType={'password'}
+          keyboardType={'visible-password'}
           value={senha}
           onChangeText={txt => setSenha(txt)}
         />
