@@ -32,7 +32,6 @@ export function Home({ token }) {
             Authorization: `Bearer ${token}`
           }
         })
-        // console.log(response.data?._embedded.entityModelList)
         setDataExists(response.data._embedded ? true : false)
 
         setProducts(response.data._embedded.entityModelList)
@@ -48,7 +47,6 @@ export function Home({ token }) {
   }
 
   function handlePreviousPage() {
-    console.log('Voltar Página')
     if (currentPage === 0) {
       return
     }
