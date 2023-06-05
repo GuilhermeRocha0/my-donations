@@ -69,7 +69,7 @@ export function Login({ onLogin }) {
         <Text style={styles.label}>Senha:</Text>
         <TextInput
           style={styles.input}
-          keyboardType={'password'}
+          keyboardType={'visible-password'}
           value={password}
           onChangeText={txt => setPassword(txt)}
         />
