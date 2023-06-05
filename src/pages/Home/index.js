@@ -22,6 +22,7 @@ export function Home({ token }) {
 
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(0)
+  const [dataExists, setDataExists] = useState(false)
 
   useEffect(() => {
     async function fetchApi() {
@@ -31,6 +32,9 @@ export function Home({ token }) {
             Authorization: `Bearer ${token}`
           }
         })
+        // console.log(response.data?._embedded.entityModelList)
+        setDataExists(response.data._embedded ? true : false)
+
         setProducts(response.data._embedded.entityModelList)
       } catch (error) {
         console.log(error)
@@ -66,25 +70,30 @@ export function Home({ token }) {
         </TouchableOpacity>
       </View>
 
-      {products.length === 0 && <Text>Nenhum produto no momento.</Text>}
+      {dataExists ? (
+        <FlatList
+          style={styles.listContainer}
+          data={products}
+          renderItem={({ item }) => <Products data={item} />}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <Text style={styles.infoMessage}>Nenhum produto nesta página.</Text>
+      )}
 
-      <FlatList
-        style={styles.listContainer}
-        data={products}
-        renderItem={({ item }) => <Products data={item} />}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-      />
-
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={handlePreviousPage}>
-          <Ionicons name="chevron-back" size={24} color="#F3F9FF" />
-          <Text style={styles.buttonTitle}>Anterior</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleNextPage}>
-          <Text style={styles.buttonTitle}>Próximo</Text>
-          <Ionicons name="chevron-forward" size={24} color="#F3F9FF" />
-        </TouchableOpacity>
+      <View style={styles.bottomPage}>
+        <Text style={styles.infoMessage}>Página {currentPage}</Text>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.button} onPress={handlePreviousPage}>
+            <Ionicons name="chevron-back" size={24} color="#F3F9FF" />
+            <Text style={styles.buttonTitle}>Anterior</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleNextPage}>
+            <Text style={styles.buttonTitle}>Próximo</Text>
+            <Ionicons name="chevron-forward" size={24} color="#F3F9FF" />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -119,13 +128,27 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     color: '#F3F9FF'
   },
+  infoMessage: {
+    fontFamily: 'Inter_400Regular',
+    marginTop: 24
+  },
   listContainer: {
     marginTop: 24
   },
+  bottomPage: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   buttonsContainer: {
     flexDirection: 'row',
+    marginBottom: 24,
+    gap: 16,
     justifyContent: 'space-between',
-    marginBottom: 24
+    alignItems: 'center'
   },
   button: {
     backgroundColor: '#177D06',
