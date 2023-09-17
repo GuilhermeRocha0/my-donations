@@ -4,7 +4,7 @@ Aplicativo feito para a Global Solution de Hybrid Mobile App Development do prim
 
 ## API usada
 
-[Link](https://link-url-here.org](https://github.com/TechnowareSolutions/gs1-2023.git))
+[Link](https://github.com/TechnowareSolutions/gs1-2023)
 
 ## Endpoints da API usada
 
