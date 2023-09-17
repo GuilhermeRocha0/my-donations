@@ -2,6 +2,10 @@
 
 Aplicativo feito para a Global Solution de Hybrid Mobile App Development do primeiro semestre da FIAP.
 
+## API usada
+
+[Link](https://link-url-here.org](https://github.com/TechnowareSolutions/gs1-2023.git))
+
 ## Endpoints da API usada
 
 - [Login](#login)
